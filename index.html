@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>森林的回聲 — 百人身體節奏與果實擴香風鈴</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/night.css" />
+  <style>
+    /* ===== 品牌配色系統 ===== */
+    :root {
+      --gold:    #C7AD7A;   /* Soft Champagne — logo, dividers, key accents */
+      --brass:   #A8895F;   /* Antique Brass — secondary accent */
+      --rose:    #8A7468;   /* Rose Taupe — warm emphasis */
+      --ink:     #111B20;   /* Midnight Ink — deepest bg */
+      --deep:    #18252B;   /* Deep Blue Black — main bg */
+      --panel:   #26343A;   /* Blue Graphite — card panels */
+      --mist:    #F5F1EA;   /* Warm Mist — main text */
+      --sand:    #E8DED1;   /* Porcelain Sand — secondary text */
+      --caption: #7E8D91;   /* Mist Blue Gray — captions */
+      --umber:   #4B443C;   /* Smoke Umber — text on light */
+      /* legacy aliases for component reuse */
+      --accent:  var(--gold);
+      --accent2: var(--brass);
+      --warn:    var(--rose);
+      --success: var(--gold);
+    }
+
+    /* ===== 全域背景覆蓋 ===== */
+    body, .reveal-viewport { background: var(--ink) !important; }
+    .reveal .slides section { background: transparent; }
+    .reveal .slide-background { background-color: var(--deep) !important; }
+
+    .reveal {
+      font-family: 'Noto Sans TC', 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+      color: var(--mist);
+    }
+    .reveal h1, .reveal h2, .reveal h3 {
+      font-family: 'Noto Sans TC', 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--mist);
+    }
+    .reveal h1 { font-size: 2.2em; }
+    .reveal h2 { font-size: 1.5em; color: var(--gold); }
+    .reveal .progress { color: var(--gold); }
+    .reveal .fragment { opacity: 0.12; }
+    .reveal .fragment.visible { opacity: 1; }
+    .reveal .controls { color: var(--gold); }
+
+    /* ===== 品牌 Logo 角落浮層 ===== */
+    .brand-corner {
+      position: fixed;
+      bottom: 18px;
+      right: 22px;
+      z-index: 100;
+      opacity: 0.72;
+      pointer-events: none;
+    }
+    .brand-corner img { height: 36px; width: auto; display: block; }
+
+    /* ===== 封面 ===== */
+    .title-slide { text-align: center; }
+    .title-slide .tag {
+      display: inline-block;
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 5px 20px;
+      border-radius: 2px;
+      font-size: 0.42em;
+      letter-spacing: 0.18em;
+      margin-bottom: 1em;
+      font-weight: 500;
+    }
+    .title-slide .cover-logo {
+      display: block;
+      margin: 0 auto 0.9em;
+      height: 52px;
+      width: auto;
+      opacity: 0.92;
+    }
+    .title-slide .subtitle { font-size: 0.62em; color: var(--caption); margin-top: 0.4em; }
+    .title-slide .keywords {
+      margin-top: 1.8em;
+      font-size: 0.46em;
+      color: rgba(199,173,122,0.25);
+      letter-spacing: 0.35em;
+    }
+    .title-slide .author {
+      margin-top: 1.4em;
+      font-size: 0.38em;
+      color: var(--caption);
+      letter-spacing: 0.1em;
+    }
+
+    /* ===== 講師介紹（含插畫）===== */
+    .bio-layout {
+      display: grid;
+      grid-template-columns: 230px 1fr;
+      gap: 36px;
+      align-items: center;
+      margin-top: 0.4em;
+    }
+    .bio-photo-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .bio-photo {
+      width: 210px;
+      height: 240px;
+      border-radius: 6px;
+      object-fit: cover;
+      object-position: center top;
+      /* 插畫白底混合：讓白色融入深色背景 */
+      mix-blend-mode: luminosity;
+      filter: contrast(1.04) brightness(0.96);
+      border: 1px solid rgba(199,173,122,0.35);
+      display: block;
+      background: transparent;
+    }
+    .bio-name {
+      font-size: 0.48em;
+      font-weight: 700;
+      color: var(--mist);
+      text-align: center;
+      letter-spacing: 0.06em;
+    }
+    .bio-brand {
+      font-size: 0.36em;
+      color: var(--gold);
+      text-align: center;
+      letter-spacing: 0.12em;
+      margin-top: 2px;
+    }
+    .bio-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      text-align: left;
+    }
+    .bio-list li {
+      font-size: 0.46em;
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(199,173,122,0.1);
+      color: var(--sand);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      line-height: 1.6;
+    }
+    .bio-list li::before {
+      content: "✦";
+      color: var(--gold);
+      flex-shrink: 0;
+      margin-top: 1px;
+      font-size: 0.8em;
+    }
+    .bio-list li:last-child { border-bottom: none; }
+
+    /* ===== 品牌工作室介紹 ===== */
+    .studio-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 0.7em;
+      align-items: start;
+    }
+    .studio-card {
+      background: rgba(199,173,122,0.06);
+      border: 1px solid rgba(199,173,122,0.18);
+      border-radius: 4px;
+      padding: 20px 18px;
+    }
+    .studio-card .sc-head {
+      font-size: 0.4em;
+      color: var(--gold);
+      letter-spacing: 0.14em;
+      font-weight: 600;
+      margin-bottom: 12px;
+      border-bottom: 1px solid rgba(199,173,122,0.2);
+      padding-bottom: 8px;
+    }
+    .studio-card .sc-body {
+      font-size: 0.44em;
+      color: var(--sand);
+      line-height: 2;
+    }
+    .studio-tagline {
+      text-align: center;
+      font-size: 0.5em;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      margin-top: 1em;
+      font-style: italic;
+    }
+
+    /* ===== 上課約定 4 圖標 ===== */
+    .rule-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 0.7em;
+    }
+    .rule-card {
+      background: rgba(199,173,122,0.06);
+      border-top: 3px solid var(--brass);
+      border-radius: 4px;
+      padding: 22px 16px;
+      text-align: center;
+    }
+    .rule-card .rule-icon { font-size: 1.8em; margin-bottom: 10px; }
+    .rule-card .rule-text { font-size: 0.48em; color: var(--sand); font-weight: 600; }
+
+    /* ===== 大字三件事 ===== */
+    .big-three {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-top: 0.7em;
+    }
+    .big-item {
+      font-size: 0.85em;
+      font-weight: 700;
+      padding: 16px 26px;
+      border-left: 4px solid var(--gold);
+      background: rgba(199,173,122,0.06);
+      border-radius: 0 4px 4px 0;
+      text-align: left;
+      color: var(--mist);
+    }
+    .big-item .item-num { color: var(--gold); margin-right: 10px; font-size: 0.75em; }
+
+    /* ===== 引言大字 ===== */
+    .quote-big {
+      font-size: 1.5em;
+      font-weight: 800;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 0.5em;
+    }
+    .quote-sub {
+      font-size: 0.5em;
+      color: var(--caption);
+      text-align: center;
+      line-height: 2;
+      letter-spacing: 0.08em;
+    }
+
+    /* ===== 頻率對比 ===== */
+    .freq-box {
+      display: grid;
+      grid-template-columns: 1fr 50px 1fr;
+      gap: 12px;
+      align-items: center;
+      margin-top: 0.7em;
+    }
+    .freq-col {
+      border-radius: 4px;
+      padding: 22px;
+      font-size: 0.47em;
+      text-align: center;
+    }
+    .freq-col.before {
+      background: rgba(138,116,104,0.1);
+      border: 1px solid rgba(138,116,104,0.3);
+    }
+    .freq-col.after {
+      background: rgba(199,173,122,0.08);
+      border: 1px solid rgba(199,173,122,0.3);
+    }
+    .freq-col .fc-title { font-size: 1.35em; font-weight: 800; margin-bottom: 10px; }
+    .freq-col.before .fc-title { color: var(--rose); }
+    .freq-col.after  .fc-title { color: var(--gold); }
+    .freq-col .fc-desc { color: var(--caption); line-height: 1.8; }
+    .freq-arrow { text-align: center; font-size: 1.6em; color: rgba(199,173,122,0.3); }
+
+    /* ===== 超大字 ===== */
+    .super-big {
+      font-size: 4.5em;
+      font-weight: 900;
+      color: var(--gold);
+      text-align: center;
+      line-height: 1;
+      margin-bottom: 0.15em;
+    }
+    .super-sub {
+      font-size: 0.58em;
+      color: var(--caption);
+      text-align: center;
+    }
+
+    /* ===== Echo 節奏格 ===== */
+    .rhythm-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 14px;
+      margin-top: 0.8em;
+    }
+    .rhythm-cell {
+      border-radius: 4px;
+      padding: 20px 10px;
+      text-align: center;
+    }
+    .rhythm-cell.beat {
+      background: rgba(199,173,122,0.1);
+      border: 1px solid var(--gold);
+    }
+    .rhythm-cell.rest {
+      background: rgba(255,255,255,0.02);
+      border: 1px dashed rgba(199,173,122,0.2);
+    }
+    .rhythm-cell .beat-word {
+      font-size: 0.75em;
+      font-weight: 900;
+      color: var(--gold);
+    }
+    .rhythm-cell.rest .beat-word { color: #444; }
+    .rhythm-cell .beat-body { font-size: 0.38em; color: var(--caption); margin-top: 8px; }
+
+    /* ===== 交叉中線 ===== */
+    .cross-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 0.6em;
+    }
+    .cross-card {
+      background: rgba(199,173,122,0.05);
+      border: 1px solid rgba(199,173,122,0.12);
+      border-radius: 4px;
+      padding: 20px;
+      text-align: center;
+      font-size: 0.52em;
+      font-weight: 600;
+      color: var(--sand);
+    }
+    .cross-card .cross-icon { font-size: 1.8em; margin-bottom: 8px; }
+    .cross-card .cross-num {
+      font-size: 0.75em;
+      color: var(--brass);
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    /* ===== 合奏分區 ===== */
+    .zone-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin-top: 0.7em;
+    }
+    .zone-card {
+      border-radius: 4px;
+      padding: 26px 14px;
+      text-align: center;
+    }
+    .zone-card.z-left  { background: rgba(138,116,104,0.1); border: 1px solid var(--rose); }
+    .zone-card.z-mid   { background: rgba(199,173,122,0.1); border: 1px solid var(--gold); }
+    .zone-card.z-right { background: rgba(168,137,95,0.1);  border: 1px solid var(--brass); }
+    .zone-card .zone-label { font-size: 0.38em; color: var(--caption); letter-spacing: 0.1em; margin-bottom: 8px; }
+    .zone-card .zone-sound { font-size: 1.3em; font-weight: 900; margin-bottom: 8px; }
+    .zone-card.z-left  .zone-sound { color: var(--rose); }
+    .zone-card.z-mid   .zone-sound { color: var(--gold); }
+    .zone-card.z-right .zone-sound { color: var(--brass); }
+    .zone-card .zone-action { font-size: 0.38em; color: var(--caption); }
+
+    /* ===== 指揮頁 ===== */
+    .conduct-list {
+      list-style: none;
+      padding: 0;
+      margin: 0.7em 0 0;
+    }
+    .conduct-list li {
+      font-size: 0.62em;
+      padding: 14px 22px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      background: rgba(199,173,122,0.04);
+      border-left: 4px solid;
+      color: var(--sand);
+      font-weight: 600;
+    }
+    .conduct-list li:nth-child(1) { border-color: var(--rose); }
+    .conduct-list li:nth-child(2) { border-color: var(--gold); }
+    .conduct-list li:nth-child(3) { border-color: var(--brass); }
+    .conduct-list li:nth-child(4) {
+      border-color: #333;
+      background: rgba(0,0,0,0.15);
+      color: var(--caption);
+      font-style: italic;
+    }
+    .conduct-list li .cl-num { font-size: 1.1em; margin-right: 10px; }
+
+    /* ===== 呼吸頁 ===== */
+    .breath-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+      margin-top: 1.2em;
+    }
+    .breath-step { text-align: center; font-size: 0.46em; color: var(--caption); }
+    .breath-step .bs-big {
+      font-size: 1.8em;
+      color: var(--gold);
+      font-weight: 700;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .breath-div { color: rgba(199,173,122,0.2); font-size: 2em; }
+
+    /* ===== 香氣四格 ===== */
+    .aroma-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 0.6em;
+    }
+    .aroma-card {
+      background: rgba(199,173,122,0.05);
+      border-top: 3px solid var(--brass);
+      border-radius: 4px;
+      padding: 18px;
+      text-align: center;
+    }
+    .aroma-card .aroma-icon { font-size: 1.5em; margin-bottom: 8px; }
+    .aroma-card .aroma-title {
+      font-size: 0.44em;
+      font-weight: 700;
+      color: var(--brass);
+      margin-bottom: 5px;
+    }
+    .aroma-card .aroma-desc { font-size: 0.38em; color: var(--caption); line-height: 1.7; }
+
+    /* ===== 材料包 ===== */
+    .material-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 1em;
+    }
+    .material-tag {
+      background: rgba(199,173,122,0.06);
+      border: 1px solid rgba(199,173,122,0.2);
+      border-radius: 2px;
+      padding: 11px 22px;
+      font-size: 0.5em;
+      color: var(--sand);
+      font-weight: 600;
+    }
+
+    /* ===== 4 步驟 ===== */
+    .step-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 0.7em;
+    }
+    .step-card {
+      flex: 1;
+      background: rgba(199,173,122,0.05);
+      border-radius: 4px;
+      padding: 20px 10px;
+      text-align: center;
+    }
+    .step-card .step-num {
+      display: block;
+      font-size: 0.35em;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+    .step-card .step-icon { font-size: 1.4em; margin-bottom: 8px; }
+    .step-card .step-title { font-size: 0.44em; font-weight: 700; color: var(--mist); margin-bottom: 5px; }
+    .step-card .step-sub { font-size: 0.35em; color: var(--caption); line-height: 1.6; }
+
+    /* ===== 心流 ===== */
+    .flow-box { text-align: center; margin-top: 0.4em; }
+    .flow-time {
+      font-size: 3.2em;
+      font-weight: 900;
+      color: var(--gold);
+      margin-bottom: 0.15em;
+    }
+    .flow-unit { font-size: 0.38em; color: var(--caption); vertical-align: middle; }
+    .flow-desc { font-size: 0.5em; color: var(--sand); margin-top: 0.8em; line-height: 2; }
+
+    /* ===== 完成頁 ===== */
+    .end-slide { text-align: center; }
+    .end-big { font-size: 3.8em; font-weight: 900; color: var(--gold); margin-bottom: 0.2em; }
+    .end-desc { font-size: 0.52em; color: var(--sand); line-height: 2; }
+
+    /* ===== QR 結尾 ===== */
+    .qr-slide { text-align: center; }
+    .qr-title { font-size: 1.1em; font-weight: 700; color: var(--gold); margin-bottom: 0.6em; }
+    .qr-img-wrap {
+      width: 190px;
+      height: 190px;
+      background: rgba(199,173,122,0.05);
+      border: 1px solid rgba(199,173,122,0.2);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1em;
+      font-size: 0.34em;
+      color: var(--caption);
+      line-height: 1.8;
+      overflow: hidden;
+    }
+    .qr-img-wrap img { width: 100%; height: 100%; object-fit: contain; }
+    .qr-tagline { font-size: 0.5em; color: var(--caption); margin-top: 0.3em; }
+    .qr-thanks { font-size: 0.38em; color: rgba(199,173,122,0.4); margin-top: 1em; }
+
+    /* ===== 裝飾細線 ===== */
+    .gold-rule {
+      width: 48px;
+      height: 1px;
+      background: var(--gold);
+      margin: 0.6em auto;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+
+<!-- 品牌 Logo 浮層（所有頁面共用） -->
+<div class="brand-corner">
+  <img src="images/logo-lockup.png" alt="鑰．本質 Key Essence" />
+</div>
+
+<div class="reveal">
+  <div class="slides">
+
+    <!-- ① 封面 -->
+    <section data-background-image="images/bg-cover.png" data-background-size="cover" data-background-opacity="0.45">
+      <div class="title-slide">
+        <img class="cover-logo" src="images/logo-lockup.png" alt="鑰．本質 Key Essence" />
+        <div class="gold-rule"></div>
+        <h1 style="color:var(--mist); margin-top:0.3em;">森林的回聲</h1>
+        <p class="subtitle">百人身體節奏與果實擴香風鈴</p>
+        <p class="keywords">音符 ｜ 節奏 ｜ 果實</p>
+        <p class="author">Molly</p>
+      </div>
+      <aside class="notes">今天不是要大家表演，而是讓每天照顧別人的身體，有一段時間被聲音接住。</aside>
+    </section>
+
+    <!-- ② Molly 自我介紹（含照片）-->
+    <section data-background-color="#18252B">
+      <h2 style="text-align:left; margin-bottom:0.4em;">關於講師</h2>
+      <div class="bio-layout">
+        <div class="bio-photo-wrap">
+          <img class="bio-photo" src="images/molly-illustration.png" alt="Molly" />
+          <div class="bio-name">Molly</div>
+          <div class="bio-brand">鑰．本質 Key Essence</div>
+        </div>
+        <ul class="bio-list">
+          <li>醫學中心資深護理師，護理執業年資 25 年</li>
+          <li>衛福部繼續教育積分系統課程核可講師</li>
+          <li>國立清華大學中西醫泌乳學教育專業證照班授課講師</li>
+          <li>法國普羅芳 Pranarom 認證專業講師</li>
+          <li>台灣泌乳協會 LAT 理事／LAT 芳香療法照護委員會主任委員</li>
+          <li>以臨床安全感、芳療與身心覺察陪伴照顧者</li>
+        </ul>
+      </div>
+      <aside class="notes">今天我不是來要求大家更努力放鬆，而是陪大家把身體的音量慢慢調回來。</aside>
+    </section>
+
+    <!-- ②-B 品牌工作室介紹 -->
+    <section data-background-color="#111B20">
+      <img src="images/logo-zhname.png" alt="鑰．本質" style="height:44px; display:block; margin:0 auto 0.5em;" />
+      <div class="gold-rule"></div>
+      <div class="studio-layout" style="margin-top:0.8em;">
+        <div class="studio-card">
+          <div class="sc-head">品牌理念</div>
+          <div class="sc-body">
+            協助長期照顧他人的女性<br>
+            重新連結自己的內在聲音<br>
+            <span style="color:var(--gold); font-style:italic;">讓改變從你自己裡面發生</span>
+          </div>
+        </div>
+        <div class="studio-card">
+          <div class="sc-head">核心服務</div>
+          <div class="sc-body">
+            精油能量解析<br>
+            統合解析 + 21 天深度陪伴<br>
+            頌缽音療<br>
+            情緒療癒陪伴
+          </div>
+        </div>
+        <div class="studio-card">
+          <div class="sc-head">服務對象</div>
+          <div class="sc-body">
+            30～45 歲女性<br>
+            已探索靈性工具<br>
+            卻仍感到卡關的照顧者
+          </div>
+        </div>
+        <div class="studio-card">
+          <div class="sc-head">聯繫方式</div>
+          <div style="display:flex; gap:16px; justify-content:center; align-items:flex-start; padding-top:4px;">
+            <div style="text-align:center;">
+              <img src="images/qr-line.png" style="width:80px;height:80px;border-radius:3px;display:block;object-fit:contain;background:#fff;" alt="LINE QR Code" />
+              <div style="font-size:0.34em; color:var(--gold); margin-top:5px; letter-spacing:0.08em;">LINE</div>
+            </div>
+            <div style="text-align:center;">
+              <img src="images/qr-ig.jpg" style="width:80px;height:80px;border-radius:3px;display:block;object-fit:contain;background:#fff;" alt="IG QR Code" />
+              <div style="font-size:0.34em; color:var(--gold); margin-top:5px; letter-spacing:0.08em;">Instagram</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">介紹品牌工作室的理念與服務，讓學員了解今天活動的出發點。</aside>
+    </section>
+
+    <!-- ③ 上課約定 -->
+    <section data-background-color="#18252B">
+      <h2>今天，請照顧自己的界線</h2>
+      <div class="rule-grid">
+        <div class="rule-card">
+          <div class="rule-icon"><img src="images/icon-chair.png" style="width:2em;height:2em;object-fit:contain;"></div>
+          <div class="rule-text">坐著就好</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon"><img src="images/icon-heart-soft.png" style="width:2em;height:2em;object-fit:contain;"></div>
+          <div class="rule-text">不痛不麻</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon"><img src="images/icon-quiet.png" style="width:2em;height:2em;object-fit:contain;"></div>
+          <div class="rule-text">可以安靜</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-icon"><img src="images/icon-leaf-safe.png" style="width:2em;height:2em;object-fit:contain;"></div>
+          <div class="rule-text">可選無香</div>
+        </div>
+      </div>
+      <aside class="notes">所有動作都可以縮小，也可以略過。舒服、安全，比整齊更重要。</aside>
+    </section>
+
+    <!-- ④ 今天只做三件事 -->
+    <section data-background-color="#111B20">
+      <h2 style="color:var(--sand);">今天只做三件事</h2>
+      <div class="big-three">
+        <div class="big-item fragment">
+          <span class="item-num">♩</span>聽見自己
+        </div>
+        <div class="big-item fragment">
+          <span class="item-num">♪</span>敲回身體
+        </div>
+        <div class="big-item fragment">
+          <span class="item-num">✦</span>帶走提醒
+        </div>
+      </div>
+      <aside class="notes">音符讓我們聽見自己，節奏讓身體慢慢回來，果實風鈴讓這份提醒可以帶回日常。</aside>
+    </section>
+
+    <!-- ⑤ 音樂治療，一句話 -->
+    <section data-background-image="images/bg-music.png" data-background-size="cover" data-background-opacity="0.35">
+      <div style="margin-top:0.5em;">
+        <div class="quote-big">不是放音樂而已</div>
+        <div class="gold-rule"></div>
+        <div class="quote-sub">有目標 · 有關係 · 有引導的音樂介入</div>
+      </div>
+      <aside class="notes">今天不是正式臨床音樂治療，而是用音樂治療的精神，設計一段團體紓壓體驗。</aside>
+    </section>
+
+    <!-- ⑥ 頻率牽引 -->
+    <section data-background-color="#18252B">
+      <h2>身體會跟著穩定節奏慢下來</h2>
+      <div class="freq-box">
+        <div class="freq-col before">
+          <div class="fc-title">戰鬥模式</div>
+          <div class="fc-desc">緊繃・警覺・快速<br>長期在醫療現場的狀態</div>
+        </div>
+        <div class="freq-arrow">→</div>
+        <div class="freq-col after">
+          <div class="fc-title">修復模式</div>
+          <div class="fc-desc">規律・降速・放鬆<br>節奏給身體一條軌道</div>
+        </div>
+      </div>
+      <aside class="notes">醫療現場讓人長期警覺。規律節奏像一條軌道，讓呼吸、心跳和肌肉有機會慢慢降速。</aside>
+    </section>
+
+    <!-- ⑦ 雙腳踩地 -->
+    <section data-background-image="images/bg-ground.png" data-background-size="cover" data-background-opacity="0.38">
+      <div class="super-big">30 秒</div>
+      <p class="super-sub">先讓椅子接住你</p>
+      <p style="font-size:0.42em; color:var(--caption); text-align:center; margin-top:1.4em; letter-spacing:0.08em;">
+        感覺腳底 &nbsp;·&nbsp; 感覺椅子 &nbsp;·&nbsp; 感覺身體重量
+      </p>
+      <aside class="notes">不需要閉眼。眼睛看地板也可以。只是感覺腳底、椅子、身體重量。</aside>
+    </section>
+
+    <!-- ⑧ 我拍，你回 -->
+    <section data-background-color="#18252B">
+      <h2>Echo 4 拍</h2>
+      <div style="display:flex; justify-content:center; align-items:center; gap:36px; margin-top:1.2em;">
+        <div style="text-align:center;">
+          <div style="font-size:0.42em; color:var(--caption); margin-bottom:10px; letter-spacing:0.1em;">老師拍</div>
+          <div style="font-size:2.2em; font-weight:900; color:var(--rose); letter-spacing:0.15em;">♩ ♩ ♩ ♩</div>
+        </div>
+        <div style="font-size:2em; color:rgba(199,173,122,0.2);">→</div>
+        <div style="text-align:center;">
+          <div style="font-size:0.42em; color:var(--caption); margin-bottom:10px; letter-spacing:0.1em;">全場回</div>
+          <div style="font-size:2.2em; font-weight:900; color:var(--gold); letter-spacing:0.15em;">♩ ♩ ♩ ♩</div>
+        </div>
+      </div>
+      <p style="font-size:0.4em; color:var(--caption); text-align:center; margin-top:1.6em;">先讓大家聽見節奏，再讓身體跟上</p>
+      <aside class="notes">不要急著追求整齊。先讓大家聽見節奏，再讓身體跟上。</aside>
+    </section>
+
+    <!-- ⑨ Echo 拍型 -->
+    <section data-background-color="#18252B">
+      <h2>拍型練習</h2>
+      <div class="rhythm-grid">
+        <div class="rhythm-cell beat">
+          <div class="beat-word">拍</div>
+          <div class="beat-body">大腿</div>
+        </div>
+        <div class="rhythm-cell beat">
+          <div class="beat-word">拍</div>
+          <div class="beat-body">手掌</div>
+        </div>
+        <div class="rhythm-cell rest">
+          <div class="beat-word">停</div>
+          <div class="beat-body">留白</div>
+        </div>
+        <div class="rhythm-cell beat">
+          <div class="beat-word">拍</div>
+          <div class="beat-body">回大腿</div>
+        </div>
+      </div>
+      <p style="font-size:0.38em; color:var(--caption); text-align:center; margin-top:1em;">停頓也很重要 &nbsp;·&nbsp; 安靜不是空掉，而是接住節奏</p>
+      <aside class="notes">停頓也很重要。安靜不是空掉，而是身體正在接住節奏。</aside>
+    </section>
+
+    <!-- ⑩ 交叉中線 -->
+    <section data-background-color="#111B20">
+      <h2>交叉中線</h2>
+      <div class="cross-grid">
+        <div class="cross-card fragment">
+          <span class="cross-num">1</span>
+          <div class="cross-icon"><img src="images/icon-cross1.png" style="width:2.2em;height:2.2em;object-fit:contain;"></div>
+          <div>右手拍左肩</div>
+        </div>
+        <div class="cross-card fragment">
+          <span class="cross-num">2</span>
+          <div class="cross-icon"><img src="images/icon-cross2.png" style="width:2.2em;height:2.2em;object-fit:contain;"></div>
+          <div>左手拍右肩</div>
+        </div>
+        <div class="cross-card fragment">
+          <span class="cross-num">3</span>
+          <div class="cross-icon"><img src="images/icon-thigh.png" style="width:2.2em;height:2.2em;object-fit:contain;"></div>
+          <div>雙手拍大腿</div>
+        </div>
+        <div class="cross-card fragment">
+          <span class="cross-num">4</span>
+          <div class="cross-icon"><img src="images/icon-clap.png" style="width:2.2em;height:2.2em;object-fit:contain;"></div>
+          <div>雙手拍手</div>
+        </div>
+      </div>
+      <p style="font-size:0.38em; color:var(--caption); text-align:center; margin-top:0.8em;">肩頸不舒服，全部改拍大腿也可以</p>
+      <aside class="notes">動作可以很小。肩頸不舒服的人，全部改拍大腿也可以。</aside>
+    </section>
+
+    <!-- ⑪ 哈！ -->
+    <section data-background-color="#18252B">
+      <div class="super-big" style="font-size:5.5em; color:var(--rose);">哈！</div>
+      <p class="super-sub">不是大吼，是替胸口打開一扇窗</p>
+      <p style="font-size:0.4em; color:var(--caption); text-align:center; margin-top:1.6em; letter-spacing:0.12em;">
+        吸氣 &nbsp;→&nbsp; 預備 &nbsp;→&nbsp; 三、二、一 &nbsp;→&nbsp; 哈
+      </p>
+      <aside class="notes">吸氣，預備。三、二、一，哈。聲音不用大，讓胸口有一個出口就好。</aside>
+    </section>
+
+    <!-- ⑫ 百人分區合奏 -->
+    <section data-background-color="#111B20">
+      <h2>百人分區合奏</h2>
+      <div class="zone-grid">
+        <div class="zone-card z-left">
+          <div class="zone-label">左區</div>
+          <div class="zone-sound">Boom</div>
+          <div class="zone-action">拍大腿</div>
+        </div>
+        <div class="zone-card z-mid">
+          <div class="zone-label">中區</div>
+          <div class="zone-sound">恰</div>
+          <div class="zone-action">拍手</div>
+        </div>
+        <div class="zone-card z-right">
+          <div class="zone-label">右區</div>
+          <div class="zone-sound">嘶</div>
+          <div class="zone-action">彈指或輕點</div>
+        </div>
+      </div>
+      <p style="font-size:0.38em; color:var(--caption); text-align:center; margin-top:0.9em;">先各區練 · 再一層一層疊起來 · 最後一起停</p>
+      <aside class="notes">先各區練，再一層一層疊起來。最後一起停，讓安靜成為最後一拍。</aside>
+    </section>
+
+    <!-- ⑬ 指揮控制頁 -->
+    <section data-background-color="#18252B">
+      <h2 style="color:var(--sand);">指揮</h2>
+      <ul class="conduct-list">
+        <li class="fragment">
+          <span class="cl-num" style="color:var(--rose);">1</span>
+          左區加入：<strong style="color:var(--rose);">Boom</strong> &nbsp;拍大腿
+        </li>
+        <li class="fragment">
+          <span class="cl-num" style="color:var(--gold);">2</span>
+          中區加入：<strong style="color:var(--gold);">恰</strong> &nbsp;拍手
+        </li>
+        <li class="fragment">
+          <span class="cl-num" style="color:var(--brass);">3</span>
+          右區加入：<strong style="color:var(--brass);">嘶</strong> &nbsp;彈指
+        </li>
+        <li class="fragment">
+          <span class="cl-num" style="color:#444;">✦</span>
+          全場停 &nbsp;—&nbsp; 安靜，成為最後一拍
+        </li>
+      </ul>
+      <aside class="notes">這張是現場控制節奏用。能量起來後一定要收束，不然後面手作會太浮。</aside>
+    </section>
+
+    <!-- ⑬.5 全場跺腳拍手（銜接 Tempo Surge 漸進段） -->
+    <section data-background-color="#111B20">
+      <h2>全場跺腳拍手</h2>
+      <p style="font-size:0.42em; color:var(--caption); text-align:center; margin-top:-0.3em; margin-bottom:0.6em;">不分區，所有人一起</p>
+      <ul class="conduct-list">
+        <li class="fragment">
+          <span class="cl-num" style="color:var(--rose);">L</span>
+          左跺腳
+        </li>
+        <li class="fragment">
+          <span class="cl-num" style="color:var(--gold);">R</span>
+          右跺腳
+        </li>
+        <li class="fragment">
+          <span class="cl-num" style="color:var(--brass);">⟳</span>
+          拍手
+        </li>
+        <li class="fragment">
+          <span class="cl-num" style="color:#444;">↻</span>
+          重複：左跺腳 → 右跺腳 → 拍手
+        </li>
+      </ul>
+      <p style="font-size:0.38em; color:var(--caption); text-align:center; margin-top:0.9em;">跟著音樂節奏一起加快，越來越有勁</p>
+      <aside class="notes">音樂銜接 Tempo Surge，節奏會漸漸堆疊變快。左跺腳、右跺腳、拍手，不分區，全場一起跟拍，隨音樂自然加快、不用喊口令硬切。</aside>
+    </section>
+
+    <!-- ⑭ 收回心跳 -->
+    <section data-background-image="images/bg-breath.png" data-background-size="cover" data-background-opacity="0.35">
+      <div class="super-big" style="font-size:3em;">3 次呼吸</div>
+      <div class="breath-row">
+        <div class="breath-step">
+          <span class="bs-big">吸氣</span>打開
+        </div>
+        <div class="breath-div">·</div>
+        <div class="breath-step">
+          <span class="bs-big">吐氣</span>回來
+        </div>
+        <div class="breath-div">·</div>
+        <div class="breath-step">
+          <span class="bs-big">停一下</span>安放
+        </div>
+      </div>
+      <aside class="notes">把剛才的熱鬧收回身體。不是壓下來，而是安放好。</aside>
+    </section>
+
+    <!-- ⑮ 果實與香氣 -->
+    <section data-background-color="#18252B">
+      <h2>嗅覺，直連情緒與記憶</h2>
+      <div class="aroma-grid">
+        <div class="aroma-card" style="border-top-color:var(--rose);">
+          <div class="aroma-icon"><img src="images/icon-nose.png" style="width:2em;height:2em;object-fit:contain;"></div>
+          <div class="aroma-title" style="color:var(--rose);">嗅覺</div>
+          <div class="aroma-desc">直連情緒記憶中心</div>
+        </div>
+        <div class="aroma-card">
+          <div class="aroma-icon"><img src="images/icon-lavender.png" style="width:2em;height:2em;object-fit:contain;"></div>
+          <div class="aroma-title">真正薰衣草</div>
+          <div class="aroma-desc">芳樟醇・乙酸芳樟酯<br>溫柔安撫</div>
+        </div>
+        <div class="aroma-card" style="border-top-color:var(--gold);">
+          <div class="aroma-icon"><img src="images/icon-citrus.png" style="width:2em;height:2em;object-fit:contain;"></div>
+          <div class="aroma-title" style="color:var(--gold);">柑橘類</div>
+          <div class="aroma-desc">清新・明亮<br>像打開一扇窗</div>
+        </div>
+        <div class="aroma-card" style="border-top-color:var(--brass);">
+          <div class="aroma-icon"><img src="images/icon-leaf-safe.png" style="width:2em;height:2em;object-fit:contain;"></div>
+          <div class="aroma-title" style="color:var(--brass);">安全使用</div>
+          <div class="aroma-desc">1 滴即可<br>可選無香版本</div>
+        </div>
+      </div>
+      <aside class="notes">香氣是選項，不是規定。氣味敏感、孕期、氣喘或不想使用香氣者，都可以做無香版本。</aside>
+    </section>
+
+    <!-- ⑯ 講師手作背景 -->
+    <section data-background-color="#111B20">
+      <h2 style="font-size:0.85em; margin-bottom:0.5em;">鑰．本質｜科學芳療手作學院</h2>
+      <div style="display:flex; gap:20px; justify-content:center; align-items:stretch; height:68vh;">
+        <div style="position:relative; flex:1; max-width:48%; border-radius:8px; overflow:hidden; box-shadow:0 0 24px rgba(199,173,122,0.15);">
+          <img src="images/brand-craft-stone.jpg"
+               style="width:100%; height:100%; object-fit:contain; background:#111B20;" alt="擴香石手作教學" />
+          <div style="position:absolute; bottom:0; left:0; right:0;
+                      background:linear-gradient(transparent, rgba(17,27,32,0.85));
+                      padding:10px 14px; font-size:0.36em; color:var(--gold); letter-spacing:0.1em;">
+            擴香石手作教學
+          </div>
+        </div>
+        <div style="position:relative; flex:1; max-width:48%; border-radius:8px; overflow:hidden; box-shadow:0 0 24px rgba(199,173,122,0.15);">
+          <img src="images/brand-craft-teach.jpg"
+               style="width:100%; height:100%; object-fit:contain; background:#111B20;" alt="精油紓壓主題式教學" />
+          <div style="position:absolute; bottom:0; left:0; right:0;
+                      background:linear-gradient(transparent, rgba(17,27,32,0.85));
+                      padding:10px 14px; font-size:0.36em; color:var(--gold); letter-spacing:0.1em;">
+            精油紓壓主題式教學
+          </div>
+        </div>
+      </div>
+      <aside class="notes">Molly 老師長期深耕科學芳療與手作療癒，今天帶大家做的果實擴香風鈴，是她最受歡迎的療癒手作之一。</aside>
+    </section>
+
+    <!-- ⑰ 風鈴聲音意象 -->
+    <section data-background-image="images/bg-ground.png" data-background-size="cover" data-background-opacity="0.28" data-background-color="#111B20">
+      <div style="max-width:820px; margin:0 auto; text-align:center; padding:0.2em 1em;">
+        <div style="font-size:1.1em; color:var(--gold); letter-spacing:0.18em; margin-bottom:0.7em; font-weight:600;">
+          果實擴香風鈴
+        </div>
+        <div style="font-size:0.44em; color:var(--sand); line-height:2.4; margin-bottom:1em;">
+          大自然果實做成的風鈴，聲音是溫潤、低調、帶有木質感的。<br>
+          果實彼此輕輕碰撞，會有細細的
+          <span style="color:var(--gold); font-weight:600; letter-spacing:0.12em;">「喀・叩・沙」</span><br>
+          像風穿過樹梢後，落在種子與枝葉之間的回音。
+        </div>
+        <div style="width:40px; height:1px; background:rgba(199,173,122,0.3); margin:0.8em auto;"></div>
+        <div style="font-size:0.40em; color:var(--caption); line-height:2.6; font-style:italic;">
+          它不是提醒你趕快做什麼<br>
+          而是輕輕喚你慢下來<br>
+          像森林裡細小的回聲，溫柔、不打擾<br>
+          <span style="color:var(--sand); font-style:normal;">讓人想起，自己也可以回到一個更安穩的位置</span>
+        </div>
+      </div>
+      <aside class="notes">讓學員先閉眼感受一下這段描述，再告訴他們：等一下你們要親手做出這個聲音。</aside>
+    </section>
+
+    <!-- ⑰ 材料包時間 -->
+    <section data-background-color="#18252B">
+      <div style="display:flex; align-items:center; gap:36px; margin-top:0.2em;">
+        <img src="images/fruit-materials.png"
+             style="height:78vh; width:auto; border-radius:6px;
+                    box-shadow:0 0 32px rgba(199,173,122,0.18);
+                    flex-shrink:0;"
+             alt="器物有靈・生活有覺" />
+        <div style="text-align:left;">
+          <h2 style="font-size:1.3em; margin-bottom:0.7em;">器物有靈・生活有覺</h2>
+          <p style="font-size:0.58em; color:var(--sand); line-height:2.2;">
+            每一顆果實都帶著一個祝願<br>
+            串起來，是你為自己留下的提醒
+          </p>
+          <div style="margin-top:1.2em; font-size:0.54em; color:var(--caption); line-height:2.6; border-left:2px solid rgba(199,173,122,0.3); padding-left:14px;">
+            鴨健藤 · 平安<br>
+            水鈴桐 · 順利<br>
+            夾竹桃 · 財富<br>
+            黑果 &nbsp;&nbsp;&nbsp;· 福氣<br>
+            花豆蔻 · 鴻運
+          </div>
+        </div>
+      </div>
+      <aside class="notes">後段不用講太多理論，讓圖說話，把注意力交給手指、材料和作品。</aside>
+    </section>
+
+    <!-- ⑰ 果實風鈴 2 步驟 -->
+    <section data-background-color="#111B20">
+      <h2>果實風鈴</h2>
+      <div class="step-row">
+        <div class="step-card">
+          <span class="step-num">STEP 1</span>
+          <div class="step-icon">🌲</div>
+          <div class="step-title">串果實</div>
+          <div class="step-sub">手指慢慢做</div>
+        </div>
+        <div class="step-card">
+          <span class="step-num">STEP 2</span>
+          <div class="step-icon">💧</div>
+          <div class="step-title">滴香氣</div>
+          <div class="step-sub">1 滴 · 或無香</div>
+        </div>
+      </div>
+      <aside class="notes">不完美也是自然的一部分。今天不是比誰做得漂亮，而是做出一個提醒自己的聲音。</aside>
+    </section>
+
+    <!-- ⑱ 心流手作 -->
+    <section data-background-color="#18252B">
+      <div class="flow-box">
+        <div class="flow-time">35 <span class="flow-unit">分鐘</span></div>
+        <p class="flow-desc">
+          把注意力放在手指、麻繩、果實的觸感<br>
+          <span style="color:var(--caption);">如果腦袋又回到工作清單，就把注意力帶回手上的材料</span>
+        </p>
+      </div>
+      <aside class="notes">如果腦袋又回到工作清單，就把注意力帶回手上的材料。</aside>
+    </section>
+
+    <!-- ⑲ 完成，輕搖一下 -->
+    <section data-background-color="#111B20">
+      <div class="end-slide">
+        <div class="end-big">完成</div>
+        <div class="gold-rule"></div>
+        <p class="end-desc">
+          輕搖一下<br>
+          <span style="color:var(--caption);">聽它像不像今天被你照顧到的一部分</span>
+        </p>
+      </div>
+      <aside class="notes">請大家輕輕搖一下，不用很大聲。這一聲，是今天留給自己的提醒。</aside>
+    </section>
+
+    <!-- ⑳ QR Code 結尾 -->
+    <section data-background-image="images/bg-ending.png" data-background-size="cover" data-background-opacity="0.38">
+      <div class="qr-slide">
+        <img src="images/logo-lockup.png" alt="鑰．本質 Key Essence" style="height:40px; margin-bottom:0.8em;" />
+        <div class="qr-title">把今天的回聲帶回生活</div>
+        <div style="display:flex; justify-content:center; gap:36px; margin:0.5em auto;">
+          <div style="text-align:center;">
+            <div style="background:#fff;padding:4px;border-radius:3px;display:inline-block;margin:0 auto 0.4em;">
+              <img src="images/qr-line.png" style="width:150px;height:150px;display:block;object-fit:contain;" alt="LINE QR Code" />
+            </div>
+            <div style="font-size:0.44em; color:var(--gold); font-weight:600; letter-spacing:0.06em;">LINE @864ihpsq</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="background:#fff;padding:4px;border-radius:3px;display:inline-block;margin:0 auto 0.4em;">
+              <img src="images/qr-ig.jpg" style="width:150px;height:150px;display:block;object-fit:contain;" alt="IG QR Code" />
+            </div>
+            <div style="font-size:0.44em; color:var(--gold); font-weight:600; letter-spacing:0.06em;">IG @molly0318</div>
+          </div>
+        </div>
+        <p class="qr-tagline">讓改變從你自己裡面發生</p>
+        <p class="qr-thanks">謝謝你，今天也把一點照顧留給自己。</p>
+      </div>
+      <aside class="notes">謝謝你，今天也把一點照顧留給自己。當風鈴響起，記得先回來，吸一口氣。</aside>
+    </section>
+
+  </div>
+</div>
+
+<!-- ===== 隱藏音軌 ===== -->
+<audio id="track-01" src="music/01-enter.mp3"    loop preload="none"></audio>
+<audio id="track-02" src="music/02-rhythm.mp3"   loop preload="none"></audio>
+<audio id="track-03" src="music/03-ensemble.mp3" loop preload="none"></audio>
+<audio id="track-03b" src="music/03b-stomp.mp3" loop preload="none"></audio>
+<audio id="track-04" src="music/04-breath.mp3"   loop preload="none"></audio>
+<audio id="track-05" src="music/05-craft.mp3"    loop preload="none"></audio>
+<audio id="track-06" src="music/06-ending.mp3"   loop preload="none"></audio>
+
+<!-- ===== 浮動音樂控制台 ===== -->
+<div id="music-panel" style="
+  position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%);
+  z-index: 9999;
+  display: flex; align-items: center; gap: 14px;
+  background: rgba(17,27,32,0.88);
+  border: 1px solid rgba(199,173,122,0.22);
+  border-radius: 32px;
+  padding: 8px 20px 8px 14px;
+  backdrop-filter: blur(10px);
+  font-family: 'Noto Sans TC', sans-serif;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.45);
+  transition: opacity 0.4s;
+">
+  <button id="music-toggle" onclick="musicToggle()" style="
+    width:34px; height:34px; border-radius:50%;
+    background: rgba(199,173,122,0.15);
+    border: 1px solid rgba(199,173,122,0.4);
+    color: #C7AD7A; font-size:14px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  ">▶</button>
+  <div style="display:flex; flex-direction:column; gap:2px; min-width:160px;">
+    <div id="music-name" style="font-size:11px; color:#C7AD7A; font-weight:600; letter-spacing:0.06em;">
+      ♩ 01-enter.mp3
+    </div>
+    <div id="music-desc" style="font-size:10px; color:#7E8D91; letter-spacing:0.04em;">
+      序曲・介紹
+    </div>
+  </div>
+  <input id="music-vol" type="range" min="0" max="1" step="0.05" value="0.5"
+    oninput="musicVol(this.value)"
+    style="width:70px; accent-color:#C7AD7A; cursor:pointer;" />
+  <span style="font-size:10px; color:#7E8D91;">音量</span>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+<script>
+  // ── 投影片 → 音軌對應 ──────────────────────────────────────
+  const TRACK_MAP = [
+    // slides 0-6  (封面 → 頻率牽引)
+    { slides: [0,1,2,3,4,5,6],   id: 'track-01', name: '01-enter.mp3',    desc: '序曲・介紹' },
+    // slides 7-11 (踩地 → 哈！)
+    { slides: [7,8,9,10,11],     id: 'track-02', name: '02-rhythm.mp3',   desc: 'Echo 身體敲擊' },
+    // slides 12-13 (百人合奏 + 指揮)
+    { slides: [12,13],           id: 'track-03', name: '03-ensemble.mp3', desc: '百人合奏' },
+    // slide 14 (全場跺腳拍手，獨立音軌，由您切換投影片決定何時開始)
+    { slides: [14],              id: 'track-03b', name: '03b-stomp.mp3',  desc: '全場跺腳拍手' },
+    // slide 15 (3次呼吸)
+    { slides: [15],              id: 'track-04', name: '04-breath.mp3',   desc: '呼吸收束' },
+    // slides 16-21 (香氣 → 風鈴意象 → 講師背景 → 材料 → 步驟 → 心流)
+    { slides: [16,17,18,19,20,21], id: 'track-05', name: '05-craft.mp3',    desc: '果實手作' },
+    // slides 22-23 (完成 + QR)
+    { slides: [22,23],             id: 'track-06', name: '06-ending.mp3',   desc: '收束' },
+  ];
+
+  let currentAudio = null;
+  let isPlaying = false;
+  let userVolume = 0.5;
+
+  function getTrackForSlide(idx) {
+    return TRACK_MAP.find(t => t.slides.includes(idx)) || TRACK_MAP[0];
+  }
+
+  function switchTrack(slideIdx) {
+    const info = getTrackForSlide(slideIdx);
+    const newAudio = document.getElementById(info.id);
+    document.getElementById('music-name').textContent = '♩ ' + info.name;
+    document.getElementById('music-desc').textContent = info.desc;
+
+    if (newAudio === currentAudio) return;
+
+    // 淡出舊音軌
+    if (currentAudio && !currentAudio.paused) {
+      const old = currentAudio;
+      const fade = setInterval(() => {
+        if (old.volume > 0.04) { old.volume -= 0.04; }
+        else { old.pause(); old.volume = userVolume; clearInterval(fade); }
+      }, 60);
+    }
+
+    currentAudio = newAudio;
+    currentAudio.volume = 0;
+
+    if (isPlaying) {
+      currentAudio.play().catch(() => {});
+      const fadeIn = setInterval(() => {
+        if (currentAudio.volume < userVolume - 0.04) { currentAudio.volume += 0.04; }
+        else { currentAudio.volume = userVolume; clearInterval(fadeIn); }
+      }, 60);
+    }
+  }
+
+  function musicToggle() {
+    const btn = document.getElementById('music-toggle');
+    if (!currentAudio) currentAudio = document.getElementById('track-01');
+
+    if (isPlaying) {
+      currentAudio.pause();
+      isPlaying = false;
+      btn.textContent = '▶';
+    } else {
+      currentAudio.volume = userVolume;
+      currentAudio.play().catch(() => {});
+      isPlaying = true;
+      btn.textContent = '⏸';
+    }
+  }
+
+  function musicVol(v) {
+    userVolume = parseFloat(v);
+    if (currentAudio) currentAudio.volume = userVolume;
+  }
+
+  // ── Reveal.js 初始化 ─────────────────────────────────────────
+  Reveal.initialize({
+    hash: true,
+    transition: 'fade',
+    transitionSpeed: 'slow',
+    backgroundTransition: 'fade',
+    center: true,
+    progress: true,
+    controls: true,
+    slideNumber: 'c/t',
+    plugins: [ RevealNotes ]
+  });
+
+  Reveal.on('slidechanged', e => {
+    switchTrack(e.indexh);
+  });
+
+  // 初始音軌設定
+  currentAudio = document.getElementById('track-01');
+</script>
+
+</body>
+</html>
