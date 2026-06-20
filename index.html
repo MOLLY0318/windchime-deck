@@ -1130,12 +1130,19 @@
 
     if (newAudio === currentAudio) return;
 
-    // 淡出舊音軌
+    // 淡出舊音軌（iOS Safari 不支援用 JS 調整 audio.volume，volume 永遠降不下去，
+    // 所以加上 ticks 安全時限，最多 1.2 秒後強制暫停，避免舊音軌卡住一直播）
     if (currentAudio && !currentAudio.paused) {
       const old = currentAudio;
+      let ticks = 0;
       const fade = setInterval(() => {
-        if (old.volume > 0.04) { old.volume -= 0.04; }
-        else { old.pause(); old.volume = userVolume; clearInterval(fade); }
+        ticks++;
+        old.volume = Math.max(0, old.volume - 0.04);
+        if (old.volume <= 0.04 || ticks >= 20) {
+          old.pause();
+          old.volume = userVolume;
+          clearInterval(fade);
+        }
       }, 60);
     }
 
