@@ -1204,6 +1204,14 @@
 
   // 初始音軌設定
   currentAudio = document.getElementById('track-01');
+
+  // 從瀏覽器背景快取（bfcache）喚醒的舊分頁，強制跳回第一頁
+  // 例如：手機切回 Safari 裡一個沒有真正關閉的舊分頁時會觸發
+  window.addEventListener('pageshow', (event) => {
+    if (event.persisted) {
+      Reveal.slide(0, 0, 0);
+    }
+  });
 </script>
 
 </body>
