@@ -578,11 +578,12 @@
       <aside class="notes">今天我不是來要求大家更努力放鬆，而是陪大家把身體的音量慢慢調回來。</aside>
     </section>
 
-    <!-- ②-B 品牌工作室介紹 -->
+    <!-- ②-B 品牌：心靈整聊室 -->
     <section data-background-color="#111B20">
       <img src="images/logo-zhname.png" alt="鑰．本質" style="height:44px; display:block; margin:0 auto 0.5em;" />
       <div class="gold-rule"></div>
-      <div class="studio-layout" style="margin-top:0.8em;">
+      <h2 style="font-size:0.85em; margin-top:0.6em; margin-bottom:0; color:var(--gold);">心靈整聊室</h2>
+      <div class="studio-layout" style="margin-top:0.7em;">
         <div class="studio-card">
           <div class="sc-head">品牌理念</div>
           <div class="sc-body">
@@ -596,7 +597,6 @@
           <div class="sc-body">
             精油能量解析<br>
             統合解析 + 21 天深度陪伴<br>
-            頌缽音療<br>
             情緒療癒陪伴
           </div>
         </div>
@@ -606,6 +606,31 @@
             30～45 歲女性<br>
             已探索靈性工具<br>
             卻仍感到卡關的照顧者
+          </div>
+        </div>
+      </div>
+      <aside class="notes">心靈整聊室是一對一深度陪伴的服務，協助長期照顧他人的女性重新連結內在聲音。</aside>
+    </section>
+
+    <!-- ②-C 品牌：芳療手作學院 -->
+    <section data-background-color="#18252B">
+      <img src="images/logo-zhname.png" alt="鑰．本質" style="height:44px; display:block; margin:0 auto 0.5em;" />
+      <div class="gold-rule"></div>
+      <h2 style="font-size:0.85em; margin-top:0.6em; margin-bottom:0; color:var(--gold);">芳療手作學院</h2>
+      <div class="studio-layout" style="margin-top:0.7em;">
+        <div class="studio-card">
+          <div class="sc-head">核心服務</div>
+          <div class="sc-body">
+            頌缽音療<br>
+            團體芳療入門教學<br>
+            團體手作教學
+          </div>
+        </div>
+        <div class="studio-card">
+          <div class="sc-head">今天的活動</div>
+          <div class="sc-body">
+            就是手作學院旗下的一場<br>
+            身體節奏 × 果實擴香風鈴體驗
           </div>
         </div>
         <div class="studio-card">
@@ -622,7 +647,7 @@
           </div>
         </div>
       </div>
-      <aside class="notes">介紹品牌工作室的理念與服務，讓學員了解今天活動的出發點。</aside>
+      <aside class="notes">芳療手作學院是團體教學與體驗的服務，今天這場活動就是手作學院的內容之一。</aside>
     </section>
 
     <!-- ③ 上課約定 -->
@@ -1077,20 +1102,20 @@
 <script>
   // ── 投影片 → 音軌對應 ──────────────────────────────────────
   const TRACK_MAP = [
-    // slides 0-6  (封面 → 頻率牽引)
-    { slides: [0,1,2,3,4,5,6],   id: 'track-01', name: '01-enter.mp3',    desc: '序曲・介紹' },
-    // slides 7-11 (踩地 → 哈！)
-    { slides: [7,8,9,10,11],     id: 'track-02', name: '02-rhythm.mp3',   desc: 'Echo 身體敲擊' },
-    // slides 12-13 (百人合奏 + 指揮)
-    { slides: [12,13],           id: 'track-03', name: '03-ensemble.mp3', desc: '百人合奏' },
-    // slide 14 (全場跺腳拍手，獨立音軌，由您切換投影片決定何時開始)
-    { slides: [14],              id: 'track-03b', name: '03b-stomp.mp3',  desc: '全場跺腳拍手' },
-    // slide 15 (3次呼吸)
-    { slides: [15],              id: 'track-04', name: '04-breath.mp3',   desc: '呼吸收束' },
-    // slides 16-20 (風鈴意象 → 講師背景 → 材料 → 步驟 → 心流)
-    { slides: [16,17,18,19,20],    id: 'track-05', name: '05-craft.mp3',    desc: '果實手作' },
-    // slides 21-22 (完成 + QR)
-    { slides: [21,22],             id: 'track-06', name: '06-ending.mp3',   desc: '收束' },
+    // slides 0-7  (封面 → 頻率牽引，含新拆出的心靈整聊室／芳療手作學院兩頁)
+    { slides: [0,1,2,3,4,5,6,7], id: 'track-01', name: '01-enter.mp3',    desc: '序曲・介紹' },
+    // slides 8-12 (踩地 → 哈！)
+    { slides: [8,9,10,11,12],    id: 'track-02', name: '02-rhythm.mp3',   desc: 'Echo 身體敲擊' },
+    // slides 13-14 (百人合奏 + 指揮)
+    { slides: [13,14],           id: 'track-03', name: '03-ensemble.mp3', desc: '百人合奏' },
+    // slide 15 (全場跺腳拍手，獨立音軌，由您切換投影片決定何時開始)
+    { slides: [15],              id: 'track-03b', name: '03b-stomp.mp3',  desc: '全場跺腳拍手' },
+    // slide 16 (3次呼吸)
+    { slides: [16],              id: 'track-04', name: '04-breath.mp3',   desc: '呼吸收束' },
+    // slides 17-21 (風鈴意象 → 講師背景 → 材料 → 步驟 → 心流)
+    { slides: [17,18,19,20,21],  id: 'track-05', name: '05-craft.mp3',    desc: '果實手作' },
+    // slides 22-23 (完成 + QR)
+    { slides: [22,23],           id: 'track-06', name: '06-ending.mp3',   desc: '收束' },
   ];
 
   let currentAudio = null;
