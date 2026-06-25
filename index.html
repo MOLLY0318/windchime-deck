@@ -1240,8 +1240,7 @@
         clearInterval(fade);
       }
     }, 60);
-    isPlaying = false;
-    document.getElementById('music-toggle').textContent = '▶';
+    // isPlaying 保持不變，換頁時 switchTrack() 才會自動播下一首
   }
 
   // ── Reveal.js 初始化 ─────────────────────────────────────────
