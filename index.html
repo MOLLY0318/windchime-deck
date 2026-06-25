@@ -1311,67 +1311,6 @@
     refreshZones();
   })();
 
-  // ── 全螢幕控制 ────────────────────────────────────────────────
-  (function () {
-    const overlay = document.getElementById('fs-overlay');
-    const btn     = document.getElementById('fs-btn');
-
-    // iOS / iPadOS 偵測（Safari 不支援 Fullscreen API）
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-                  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-
-    // 已從主畫面 PWA 模式啟動 → 直接隱藏遮罩
-    const isStandalone = window.navigator.standalone === true;
-
-    if (isIOS) {
-      btn.style.display = 'none'; // 隱藏桌機按鈕
-
-      if (isStandalone) {
-        // PWA 模式 → 已全螢幕，不需遮罩
-        overlay.style.display = 'none';
-      } else {
-        // Safari 開啟 → 顯示「加到主畫面」說明
-        overlay.innerHTML = `
-          <div style="font-size:2.6em;color:#C7AD7A;margin-bottom:0.4em;">📲</div>
-          <div style="font-size:1.1em;color:#F5F1EA;letter-spacing:0.1em;line-height:1.7em;">
-            若要全螢幕播放，請先將此頁面<br>加入主畫面
-          </div>
-          <div style="font-size:0.78em;color:#C7AD7A;margin-top:1em;line-height:2em;letter-spacing:0.05em;">
-            Safari 右上角 <span style="font-size:1.1em;">⎙</span> 分享按鈕<br>
-            →「加入主畫面」→ 從主畫面開啟
-          </div>
-          <div style="font-size:0.65em;color:#7E8D91;margin-top:1.4em;">點此關閉提示，繼續在 Safari 中播放</div>
-        `;
-        overlay.addEventListener('click', () => { overlay.style.display = 'none'; });
-      }
-    } else {
-      // 桌機 / Android → 使用 Fullscreen API
-      overlay.innerHTML = `
-        <div style="font-size:3.2em;color:#C7AD7A;margin-bottom:0.3em;">⛶</div>
-        <div style="font-size:1.15em;color:#F5F1EA;letter-spacing:0.12em;">點擊進入全螢幕</div>
-        <div style="font-size:0.72em;color:#7E8D91;margin-top:0.5em;letter-spacing:0.06em;">Click to enter fullscreen</div>
-      `;
-
-      function enter() {
-        const el = document.documentElement;
-        (el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen || (() => {})).call(el);
-      }
-      function toggle() {
-        if (document.fullscreenElement || document.webkitFullscreenElement) {
-          (document.exitFullscreen || document.webkitExitFullscreen || (() => {})).call(document);
-        } else { enter(); }
-      }
-
-      overlay.addEventListener('click', () => { enter(); overlay.style.display = 'none'; });
-      btn.addEventListener('click', toggle);
-
-      const updateBtn = () => {
-        btn.textContent = (document.fullscreenElement || document.webkitFullscreenElement) ? '⊠' : '⛶';
-      };
-      document.addEventListener('fullscreenchange', updateBtn);
-      document.addEventListener('webkitfullscreenchange', updateBtn);
-    }
-  })();
 
   // 手作花絮輪播：兩張 img 交叉淡入淡出，自動循環，不需要手動切換
   (function () {
@@ -1439,6 +1378,59 @@
   padding:6px 9px; border-radius:6px;
   cursor:pointer; opacity:0.7; transition:opacity 0.2s;
 " onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">⛶</button>
+
+<script>
+// 全螢幕控制（放在 overlay/btn 元素之後才能正確取得 DOM）
+(function () {
+  const overlay = document.getElementById('fs-overlay');
+  const btn     = document.getElementById('fs-btn');
+
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const isStandalone = window.navigator.standalone === true;
+
+  if (isIOS) {
+    btn.style.display = 'none';
+    if (isStandalone) {
+      overlay.style.display = 'none';
+    } else {
+      overlay.innerHTML = `
+        <div style="font-size:2.6em;color:#C7AD7A;margin-bottom:0.4em;">📲</div>
+        <div style="font-size:1.1em;color:#F5F1EA;letter-spacing:0.1em;line-height:1.7em;">
+          若要全螢幕播放，請先將此頁面<br>加入主畫面
+        </div>
+        <div style="font-size:0.78em;color:#C7AD7A;margin-top:1em;line-height:2em;letter-spacing:0.05em;">
+          Safari 右上角 ⎙ 分享按鈕<br>→「加入主畫面」→ 從主畫面開啟
+        </div>
+        <div style="font-size:0.65em;color:#7E8D91;margin-top:1.4em;">點此關閉提示，繼續在 Safari 中播放</div>
+      `;
+      overlay.addEventListener('click', () => { overlay.style.display = 'none'; });
+    }
+  } else {
+    overlay.innerHTML = `
+      <div style="font-size:3.2em;color:#C7AD7A;margin-bottom:0.3em;">⛶</div>
+      <div style="font-size:1.15em;color:#F5F1EA;letter-spacing:0.12em;">點擊進入全螢幕</div>
+      <div style="font-size:0.72em;color:#7E8D91;margin-top:0.5em;letter-spacing:0.06em;">Click to enter fullscreen</div>
+    `;
+    function enter() {
+      const el = document.documentElement;
+      (el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen || (()=>{})).call(el);
+    }
+    function toggle() {
+      if (document.fullscreenElement || document.webkitFullscreenElement) {
+        (document.exitFullscreen || document.webkitExitFullscreen || (()=>{})).call(document);
+      } else { enter(); }
+    }
+    overlay.addEventListener('click', () => { enter(); overlay.style.display = 'none'; });
+    btn.addEventListener('click', toggle);
+    const updateBtn = () => {
+      btn.textContent = (document.fullscreenElement || document.webkitFullscreenElement) ? '⊠' : '⛶';
+    };
+    document.addEventListener('fullscreenchange', updateBtn);
+    document.addEventListener('webkitfullscreenchange', updateBtn);
+  }
+})();
+</script>
 
 </body>
 </html>
