@@ -1232,9 +1232,13 @@
   function musicFadeStop() {
     if (!currentAudio || currentAudio.paused) return;
     const target = currentAudio;
+    let ticks = 0;
     const fade = setInterval(() => {
+      ticks++;
       target.volume = Math.max(0, target.volume - 0.05);
-      if (target.volume <= 0.05) {
+      // ticks >= 20 是 iOS 安全時限（同 switchTrack 的處理方式）
+      // iOS Safari 無法用 JS 調整 audio.volume，靠 ticks 強制暫停
+      if (target.volume <= 0.05 || ticks >= 20) {
         target.pause();
         target.volume = userVolume;
         clearInterval(fade);
