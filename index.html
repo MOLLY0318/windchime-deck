@@ -880,7 +880,7 @@
           <span class="cl-num" style="color:var(--brass);">3</span>
           右區加入：<strong style="color:var(--brass);">嘶</strong> &nbsp;彈指
         </li>
-        <li class="fragment">
+        <li class="fragment" data-stop-music="true">
           <span class="cl-num" style="color:#444;">✦</span>
           全場停 &nbsp;—&nbsp; 安靜，成為最後一拍
         </li>
@@ -1229,6 +1229,21 @@
     if (currentAudio) currentAudio.volume = userVolume;
   }
 
+  function musicFadeStop() {
+    if (!currentAudio || currentAudio.paused) return;
+    const target = currentAudio;
+    const fade = setInterval(() => {
+      target.volume = Math.max(0, target.volume - 0.05);
+      if (target.volume <= 0.05) {
+        target.pause();
+        target.volume = userVolume;
+        clearInterval(fade);
+      }
+    }, 60);
+    isPlaying = false;
+    document.getElementById('music-toggle').textContent = '▶';
+  }
+
   // ── Reveal.js 初始化 ─────────────────────────────────────────
   Reveal.initialize({
     hash: false,
@@ -1301,6 +1316,7 @@
     }
 
     Reveal.on('fragmentshown', (event) => {
+      if (event.fragment.dataset.stopMusic === 'true') musicFadeStop();
       const step = event.fragment.dataset.zoneStep;
       if (step === 'rand1') randomZone4 = pickRandomZone();
       if (step === 'rand2') randomZone5 = pickRandomZone(randomZone4);
