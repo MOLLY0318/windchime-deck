@@ -1311,6 +1311,31 @@
     refreshZones();
   })();
 
+  // ── 全螢幕控制 ────────────────────────────────────────────────
+  (function () {
+    const overlay = document.getElementById('fs-overlay');
+    const btn     = document.getElementById('fs-btn');
+
+    function enter() {
+      const el = document.documentElement;
+      (el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen || (() => {})).call(el);
+    }
+    function toggle() {
+      if (document.fullscreenElement || document.webkitFullscreenElement) {
+        (document.exitFullscreen || document.webkitExitFullscreen || (() => {})).call(document);
+      } else { enter(); }
+    }
+
+    overlay.addEventListener('click', () => { enter(); overlay.style.display = 'none'; });
+    btn.addEventListener('click', toggle);
+
+    const updateBtn = () => {
+      btn.textContent = (document.fullscreenElement || document.webkitFullscreenElement) ? '⊠' : '⛶';
+    };
+    document.addEventListener('fullscreenchange', updateBtn);
+    document.addEventListener('webkitfullscreenchange', updateBtn);
+  })();
+
   // 手作花絮輪播：兩張 img 交叉淡入淡出，自動循環，不需要手動切換
   (function () {
     const galleryImages = [
@@ -1357,6 +1382,28 @@
     }, 5000);
   })();
 </script>
+
+<!-- 全螢幕啟動遮罩 -->
+<div id="fs-overlay" style="
+  position:fixed; inset:0; z-index:9999;
+  background:rgba(17,27,32,0.92);
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  cursor:pointer; user-select:none;
+">
+  <div style="font-size:3.2em; color:#C7AD7A; margin-bottom:0.3em;">⛶</div>
+  <div style="font-size:1.15em; color:#F5F1EA; letter-spacing:0.12em; font-family:'Noto Sans TC','Microsoft JhengHei',sans-serif;">點擊進入全螢幕</div>
+  <div style="font-size:0.72em; color:#7E8D91; margin-top:0.5em; letter-spacing:0.06em;">Click to enter fullscreen</div>
+</div>
+
+<!-- 全螢幕切換按鈕（右下角浮層） -->
+<button id="fs-btn" title="切換全螢幕 (F)" style="
+  position:fixed; bottom:18px; left:18px; z-index:200;
+  background:rgba(17,27,32,0.65); border:1px solid rgba(199,173,122,0.4);
+  color:#C7AD7A; font-size:1.1em; line-height:1;
+  padding:6px 9px; border-radius:6px;
+  cursor:pointer; opacity:0.7; transition:opacity 0.2s;
+" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">⛶</button>
 
 </body>
 </html>
